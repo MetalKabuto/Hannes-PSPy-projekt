@@ -126,6 +126,24 @@ def all_fx():
     else:
         txt_edit.tag_add("all_fx", "sel.first", "sel.last")
 
+def clear_fx():
+    """Removes any applied effects to the highlighted text"""
+    current_tags= txt_edit.tag_names("sel.first")
+    if "bold" in current_tags:
+        txt_edit.tag_remove("bold", "sel.first", "sel.last")
+    if "italic" in current_tags:
+        txt_edit.tag_remove("italic", "sel.first", "sel.last")
+    if "underline" in current_tags:
+        txt_edit.tag_remove("underline", "sel.first", "sel.last")
+    if "bold_ital" in current_tags:
+        txt_edit.tag_remove("bold_ital", "sel.first", "sel.last")
+    if "bold_under" in current_tags:
+        txt_edit.tag_remove("bold_under", "sel.first", "sel.last")
+    if "ital_under" in current_tags:
+        txt_edit.tag_remove("ital_under", "sel.first", "sel.last")
+    if "all_fx" in current_tags:
+        txt_edit.tag_remove("all_fx", "sel.first", "sel.last")
+    
 window = tk.Tk()
 window.title("Simple Text Editor")
 
@@ -146,6 +164,7 @@ btn_bold_ital = tk.Button(frm_buttons, text="Bold+Ital", command=bold_ital)
 btn_bold_under = tk.Button(frm_buttons, text="Bold+Under", command=bold_under)
 btn_ital_under = tk.Button(frm_buttons, text="Ital+Under", command=ital_under)
 btn_all_fx = tk.Button(frm_buttons, text="All", command=all_fx)
+btn_clear_fx = tk.Button(frm_buttons, text="Clear FX", command=clear_fx)
 
 btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 btn_save.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
@@ -157,6 +176,7 @@ btn_bold_ital.grid(row=6, column=0, sticky="ew", padx=5, pady=5)
 btn_bold_under.grid(row=7, column=0, sticky="ew", padx=5, pady=5)
 btn_ital_under.grid(row=8, column=0, sticky="ew", padx=5, pady=5)
 btn_all_fx.grid(row=9, column=0, sticky="ew", padx=5, pady=5)
+btn_clear_fx.grid(row=10, column=0, sticky="ew", padx=5, pady=5)
 
 frm_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
