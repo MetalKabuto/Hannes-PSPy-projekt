@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.font as tkFont
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
 def open_file():
@@ -27,6 +28,33 @@ def save_file():
         output_file.write(text)
     window.title(f"Simple Text Editor - {filepath}")
 
+def select():
+    selected = txt_edit.selection_get()
+
+def boldify():
+    #taget från https://www.youtube.com/watch?v=X6zqePBPDVU , ändrat 'my_text' till 'txt_edit'
+    """Makes highlighted text bold"""
+    bold_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
+    bold_font.configure(weight="bold")
+    txt_edit.tag_configure("bold", font=bold_font)
+    current_tags= txt_edit.tag_names("sel.first")
+    if "bold" in current_tags:
+        txt_edit.tag_remove("bold", "sel.first", "sel.last")
+    else:
+        txt_edit.tag_add("bold", "sel.first", "sel.last")
+
+def italify():
+    #taget från https://www.youtube.com/watch?v=X6zqePBPDVU , ändrat 'my_text' till 'txt_edit'
+    """Makes highlighted text italicised"""
+    italic_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
+    italic_font.configure(slant="italic")
+    txt_edit.tag_configure("italic", font=italic_font)
+    current_tags= txt_edit.tag_names("sel.first")
+    if "italic" in current_tags:
+        txt_edit.tag_remove("italic", "sel.first", "sel.last")
+    else:
+        txt_edit.tag_add("italic", "sel.first", "sel.last")
+
 window = tk.Tk()
 window.title("Simple Text Editor")
 
@@ -37,9 +65,13 @@ txt_edit = tk.Text(window)
 frm_buttons = tk.Frame(window, relief=tk.RAISED, bd=2)
 btn_open = tk.Button(frm_buttons, text="Open", command=open_file)
 btn_save = tk.Button(frm_buttons, text="Save As...", command=save_file)
+btn_bold = tk.Button(frm_buttons, text="Bold", command=boldify)
+btn_italic = tk.Button(frm_buttons, text="Italify", command=italify)
 
 btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
-btn_save.grid(row=1, column=0, sticky="ew", padx=5)
+btn_save.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+btn_bold.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
+btn_italic.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
 
 frm_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
