@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.font as tkFont
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
-#active_file används för att få sökvägen till filen man öppnar eller sparar som utanför funktionerna 'open_file' och 'save_file_as'
+#active_file används för att få sökvägen till filen man öppnar eller sparar utanför funktionerna 'open_file' och 'save_file_as'
 active_file = ""
 def open_file():
     """Open a file for editing."""
@@ -45,6 +45,7 @@ def save_file_as():
 def select():
     selected = txt_edit.selection_get()
 
+#TODO: man kan endast ha fetstil eller kursiv, inte båda samtidigt!
 def boldify():
     #taget från https://www.youtube.com/watch?v=X6zqePBPDVU , ändrat 'my_text' till 'txt_edit'
     """Makes highlighted text bold"""
@@ -69,6 +70,18 @@ def italify():
     else:
         txt_edit.tag_add("italic", "sel.first", "sel.last")
 
+def underline():
+    #hittade underline = true här: #https://stackoverflow.com/questions/3655449/underline-text-in-tkinter-label-widget
+    """Makes highlighted text underlined"""
+    underline_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
+    underline_font.configure(underline=True)
+    txt_edit.tag_configure("underline", font=underline_font)
+    current_tags= txt_edit.tag_names("sel.first")
+    if "underline" in current_tags:
+        txt_edit.tag_remove("underline", "sel.first", "sel.last")
+    else:
+        txt_edit.tag_add("underline", "sel.first", "sel.last")
+
 window = tk.Tk()
 window.title("Simple Text Editor")
 
@@ -82,12 +95,14 @@ btn_save = tk.Button(frm_buttons, text="Save", command=save_file)
 btn_save_as = tk.Button(frm_buttons, text="Save As...", command=save_file_as)
 btn_bold = tk.Button(frm_buttons, text="Bold", command=boldify)
 btn_italic = tk.Button(frm_buttons, text="Italify", command=italify)
+btn_underline = tk.Button(frm_buttons, text="Underline", command=underline)
 
 btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 btn_save.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 btn_save_as.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
 btn_bold.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
 btn_italic.grid(row=4, column=0, sticky="ew", padx=5, pady=5)
+btn_underline.grid(row=4, column=0, sticky="ew", padx=5, pady=5)
 
 frm_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
