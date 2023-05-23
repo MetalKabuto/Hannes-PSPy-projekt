@@ -55,10 +55,18 @@ def boldify():
     bold_font.configure(weight="bold")
     txt_edit.tag_configure("bold", font=bold_font)
     current_tags= txt_edit.tag_names("sel.first")
-    if "bold" in current_tags:
-        txt_edit.tag_remove("bold", "sel.first", "sel.last")
+    if "cascadia" in current_tags:
+        if "cascadia_bold" in current_tags:
+            txt_edit.tag_remove("cascadia_bold", "sel.first", "sel.last")
+        else:
+            cascadia_font = ("Cascadia Code", 11, "bold")
+            txt_edit.tag_configure("cascadia_bold", font=cascadia_font)
+            txt_edit.tag_add("cascadia_bold", "sel.first", "sel.last")
     else:
-        txt_edit.tag_add("bold", "sel.first", "sel.last")
+        if "bold" in current_tags:
+            txt_edit.tag_remove("bold", "sel.first", "sel.last")
+        else:
+            txt_edit.tag_add("bold", "sel.first", "sel.last")
 
 def italify():
     #taget från https://www.youtube.com/watch?v=X6zqePBPDVU , ändrat 'my_text' till 'txt_edit'
@@ -67,10 +75,18 @@ def italify():
     italic_font.configure(slant="italic")
     txt_edit.tag_configure("italic", font=italic_font)
     current_tags= txt_edit.tag_names("sel.first")
-    if "italic" in current_tags:
-        txt_edit.tag_remove("italic", "sel.first", "sel.last")
+    if "cascadia" in current_tags:
+        if "cascadia_italic" in current_tags:
+            txt_edit.tag_remove("cascadia_italic", "sel.first", "sel.last")
+        else:
+            cascadia_font = ("Cascadia Code", 11, "italic")
+            txt_edit.tag_configure("cascadia_italic", font=cascadia_font)
+            txt_edit.tag_add("cascadia_italic", "sel.first", "sel.last")
     else:
-        txt_edit.tag_add("italic", "sel.first", "sel.last")
+        if "italic" in current_tags:
+            txt_edit.tag_remove("italic", "sel.first", "sel.last")
+        else:
+            txt_edit.tag_add("italic", "sel.first", "sel.last")
 
 def underline():
     #hittade underline = true här: #https://stackoverflow.com/questions/3655449/underline-text-in-tkinter-label-widget
@@ -79,10 +95,18 @@ def underline():
     underline_font.configure(underline=True)
     txt_edit.tag_configure("underline", font=underline_font)
     current_tags= txt_edit.tag_names("sel.first")
-    if "underline" in current_tags:
-        txt_edit.tag_remove("underline", "sel.first", "sel.last")
+    if "cascadia" in current_tags:
+        if "cascadia_under" in current_tags:
+            txt_edit.tag_remove("cascadia_under", "sel.first", "sel.last")
+        else:
+            cascadia_font = ("Cascadia Code", 11, "underline")
+            txt_edit.tag_configure("cascadia_under", font=cascadia_font)
+            txt_edit.tag_add("cascadia_under", "sel.first", "sel.last")
     else:
-        txt_edit.tag_add("underline", "sel.first", "sel.last")
+        if "underline" in current_tags:
+            txt_edit.tag_remove("underline", "sel.first", "sel.last")
+        else:
+            txt_edit.tag_add("underline", "sel.first", "sel.last")
 
 def bold_ital():
     """Makes highlighted text bold and italicised"""
@@ -145,6 +169,9 @@ def clear_fx():
         txt_edit.tag_remove("ital_under", "sel.first", "sel.last")
     if "all_fx" in current_tags:
         txt_edit.tag_remove("all_fx", "sel.first", "sel.last")
+    #Eftersom cascadia_bold är sin egen tag som ligger 'ovanpå' cascadia taggen, blir fonten kvar men fetstilen tas bort.
+    if "cascadia_bold" in current_tags:
+        txt_edit.tag_remove("cascadia_bold", "sel.first", "sel.last")
 
 def cascadia():
     """Changes highlighted text to 'Cascadia Code' font"""
@@ -189,13 +216,11 @@ def lucida():
 def clear_font():
     """Removes any applied fonts to the highlighted text"""
     current_tags= txt_edit.tag_names("sel.first")
-    if "cascadia" in current_tags:
+    #OBS: finns ingen tag med namnet default, man tar alltså bort alla font taggar ändå.
+    if "default" not in current_tags:
         txt_edit.tag_remove("cascadia", "sel.first", "sel.last")
-    if "consolas" in current_tags:
         txt_edit.tag_remove("consolas", "sel.first", "sel.last")
-    if "courier" in current_tags:
         txt_edit.tag_remove("courier", "sel.first", "sel.last")
-    if "lucida" in current_tags:
         txt_edit.tag_remove("lucida", "sel.first", "sel.last")
 
 window = tk.Tk()
@@ -208,7 +233,10 @@ window.columnconfigure(1, minsize=800, weight=1)
 
 test_text = "String för att testa grejer!\n"
 #monospace font hittad i första svaret här: https://stackoverflow.com/questions/48731746/how-to-set-a-tkinter-widget-to-a-monospaced-platform-independent-font
-txt_edit = tk.Text(window, font=('TkFixedFont',11))
+default_font = ("TkFixedFont", 11)
+txt_edit = tk.Text(window, font=(default_font))
+default_font = ("TkFixedFont", 20)
+txt_edit.tag_configure("default", font=default_font)
 txt_edit.insert(1.0, test_text)
 txt_edit.insert(2.0, test_text)
 txt_edit.insert(3.0, test_text)
