@@ -45,9 +45,12 @@ def save_file_as():
 #select är oanvänd än så länge
 def select():
     selected = txt_edit.selection_get()
+    return selected
 
 #TODO: Gör de olika effekterna mer effektiva, istället för att ha en egen metod för varje variant.
-#TODO: Gör så att man kan ha effekter på de olika fonterna
+#OBS: Om man lägger på en effekt före en font, så hamnar fonten 'ovanpå' effekt-taggen, och endast fonten syns.
+#Gör därför font först, sen effekt.
+#OBS2: Om man markerar flera rader med olika fonter och sedan lägger på en effekt, får alla rader samma font som den översta man valt.
 def boldify():
     #taget från https://www.youtube.com/watch?v=X6zqePBPDVU , ändrat 'my_text' till 'txt_edit'
     """Makes highlighted text bold"""
@@ -62,6 +65,27 @@ def boldify():
             cascadia_font = ("Cascadia Code", 11, "bold")
             txt_edit.tag_configure("cascadia_bold", font=cascadia_font)
             txt_edit.tag_add("cascadia_bold", "sel.first", "sel.last")
+    elif "consolas" in current_tags:
+        if "consolas_bold" in current_tags:
+            txt_edit.tag_remove("consolas_bold", "sel.first", "sel.last")
+        else:
+            consolas_font = ("Consolas", 11, "bold")
+            txt_edit.tag_configure("consolas_bold", font=consolas_font)
+            txt_edit.tag_add("consolas_bold", "sel.first", "sel.last")
+    elif "courier" in current_tags:
+        if "courier_bold" in current_tags:
+            txt_edit.tag_remove("courier_bold", "sel.first", "sel.last")
+        else:
+            courier_font = ("Courier", 11, "bold")
+            txt_edit.tag_configure("courier_bold", font=courier_font)
+            txt_edit.tag_add("courier_bold", "sel.first", "sel.last")
+    elif "lucida" in current_tags:
+        if "lucida_bold" in current_tags:
+            txt_edit.tag_remove("lucida_bold", "sel.first", "sel.last")
+        else:
+            lucida_font = ("Lucida Console", 11, "bold")
+            txt_edit.tag_configure("lucida_bold", font=lucida_font)
+            txt_edit.tag_add("lucida_bold", "sel.first", "sel.last")
     else:
         if "bold" in current_tags:
             txt_edit.tag_remove("bold", "sel.first", "sel.last")
@@ -82,6 +106,27 @@ def italify():
             cascadia_font = ("Cascadia Code", 11, "italic")
             txt_edit.tag_configure("cascadia_italic", font=cascadia_font)
             txt_edit.tag_add("cascadia_italic", "sel.first", "sel.last")
+    elif "consolas" in current_tags:
+        if "consolas_italic" in current_tags:
+            txt_edit.tag_remove("consolas_italic", "sel.first", "sel.last")
+        else:
+            consolas_font = ("Consolas", 11, "italic")
+            txt_edit.tag_configure("consolas_italic", font=consolas_font)
+            txt_edit.tag_add("consolas_italic", "sel.first", "sel.last")
+    elif "courier" in current_tags:
+        if "courier_italic" in current_tags:
+            txt_edit.tag_remove("courier_italic", "sel.first", "sel.last")
+        else:
+            courier_font = ("Courier", 11, "italic")
+            txt_edit.tag_configure("courier_italic", font=courier_font)
+            txt_edit.tag_add("courier_italic", "sel.first", "sel.last")
+    elif "lucida" in current_tags:
+        if "lucida_italic" in current_tags:
+            txt_edit.tag_remove("lucida_italic", "sel.first", "sel.last")
+        else:
+            lucida_font = ("Lucida Console", 11, "italic")
+            txt_edit.tag_configure("lucida_italic", font=lucida_font)
+            txt_edit.tag_add("lucida_italic", "sel.first", "sel.last")
     else:
         if "italic" in current_tags:
             txt_edit.tag_remove("italic", "sel.first", "sel.last")
@@ -102,6 +147,27 @@ def underline():
             cascadia_font = ("Cascadia Code", 11, "underline")
             txt_edit.tag_configure("cascadia_under", font=cascadia_font)
             txt_edit.tag_add("cascadia_under", "sel.first", "sel.last")
+    elif "consolas" in current_tags:
+        if "consolas_under" in current_tags:
+            txt_edit.tag_remove("consolas_under", "sel.first", "sel.last")
+        else:
+            consolas_font = ("Consolas", 11, "underline")
+            txt_edit.tag_configure("consolas_under", font=consolas_font)
+            txt_edit.tag_add("consolas_under", "sel.first", "sel.last")
+    elif "courier" in current_tags:
+        if "courier_under" in current_tags:
+            txt_edit.tag_remove("courier_under", "sel.first", "sel.last")
+        else:
+            courier_font = ("Courier", 11, "underline")
+            txt_edit.tag_configure("courier_under", font=courier_font)
+            txt_edit.tag_add("courier_under", "sel.first", "sel.last")
+    elif "lucida" in current_tags:
+        if "lucida_under" in current_tags:
+            txt_edit.tag_remove("lucida_under", "sel.first", "sel.last")
+        else:
+            lucida_font = ("Lucida Console", 11, "underline")
+            txt_edit.tag_configure("lucida_under", font=lucida_font)
+            txt_edit.tag_add("lucida_under", "sel.first", "sel.last")
     else:
         if "underline" in current_tags:
             txt_edit.tag_remove("underline", "sel.first", "sel.last")
@@ -114,10 +180,39 @@ def bold_ital():
     bold_ital_font.configure(weight="bold", slant="italic")
     txt_edit.tag_configure("bold_ital", font=bold_ital_font)
     current_tags= txt_edit.tag_names("sel.first")
-    if "bold_ital" in current_tags:
-        txt_edit.tag_remove("bold_ital", "sel.first", "sel.last")
+    if "cascadia" in current_tags:
+        if "cascadia_bold_ital" in current_tags:
+            txt_edit.tag_remove("cascadia_bold_ital", "sel.first", "sel.last")
+        else:
+            cascadia_font = ("Cascadia Code", 11, "bold", "italic")
+            txt_edit.tag_configure("cascadia_bold_ital", font=cascadia_font)
+            txt_edit.tag_add("cascadia_bold_ital", "sel.first", "sel.last")
+    elif "consolas" in current_tags:
+        if "consolas_bold_ital" in current_tags:
+            txt_edit.tag_remove("consolas_bold_ital", "sel.first", "sel.last")
+        else:
+            consolas_font = ("Consolas", 11, "bold", "italic")
+            txt_edit.tag_configure("consolas_bold_ital", font=consolas_font)
+            txt_edit.tag_add("consolas_bold_ital", "sel.first", "sel.last")
+    elif "courier" in current_tags:
+        if "courier_bold_ital" in current_tags:
+            txt_edit.tag_remove("courier_bold_ital", "sel.first", "sel.last")
+        else:
+            courier_font = ("Courier", 11, "bold", "italic")
+            txt_edit.tag_configure("courier_bold_ital", font=courier_font)
+            txt_edit.tag_add("courier_bold_ital", "sel.first", "sel.last")
+    elif "lucida" in current_tags:
+        if "lucida_bold_ital" in current_tags:
+            txt_edit.tag_remove("lucida_bold_ital", "sel.first", "sel.last")
+        else:
+            lucida_font = ("Lucida Console", 11, "bold", "italic")
+            txt_edit.tag_configure("lucida_bold_ital", font=lucida_font)
+            txt_edit.tag_add("lucida_bold_ital", "sel.first", "sel.last")
     else:
-        txt_edit.tag_add("bold_ital", "sel.first", "sel.last")
+        if "bold_ital" in current_tags:
+            txt_edit.tag_remove("bold_ital", "sel.first", "sel.last")
+        else:
+            txt_edit.tag_add("bold_ital", "sel.first", "sel.last")
 
 def bold_under():
     """Makes highlighted text bold and underscored"""
@@ -125,10 +220,39 @@ def bold_under():
     bold_under_font.configure(weight="bold", underline=True)
     txt_edit.tag_configure("bold_under", font=bold_under_font)
     current_tags= txt_edit.tag_names("sel.first")
-    if "bold_under" in current_tags:
-        txt_edit.tag_remove("bold_under", "sel.first", "sel.last")
+    if "cascadia" in current_tags:
+        if "cascadia_bold_under" in current_tags:
+            txt_edit.tag_remove("cascadia_bold_under", "sel.first", "sel.last")
+        else:
+            cascadia_font = ("Cascadia Code", 11, "bold", "underline")
+            txt_edit.tag_configure("cascadia_bold_under", font=cascadia_font)
+            txt_edit.tag_add("cascadia_bold_under", "sel.first", "sel.last")
+    elif "consolas" in current_tags:
+        if "consolas_bold_under" in current_tags:
+            txt_edit.tag_remove("consolas_bold_under", "sel.first", "sel.last")
+        else:
+            consolas_font = ("Consolas", 11, "bold", "underline")
+            txt_edit.tag_configure("consolas_bold_under", font=consolas_font)
+            txt_edit.tag_add("consolas_bold_under", "sel.first", "sel.last")
+    elif "courier" in current_tags:
+        if "courier_bold_under" in current_tags:
+            txt_edit.tag_remove("courier_bold_under", "sel.first", "sel.last")
+        else:
+            courier_font = ("Courier", 11, "bold", "underline")
+            txt_edit.tag_configure("courier_bold_under", font=courier_font)
+            txt_edit.tag_add("courier_bold_under", "sel.first", "sel.last")
+    elif "lucida" in current_tags:
+        if "lucida_bold_under" in current_tags:
+            txt_edit.tag_remove("lucida_bold_under", "sel.first", "sel.last")
+        else:
+            lucida_font = ("Lucida Console", 11, "bold", "underline")
+            txt_edit.tag_configure("lucida_bold_under", font=lucida_font)
+            txt_edit.tag_add("lucida_bold_under", "sel.first", "sel.last")
     else:
-        txt_edit.tag_add("bold_under", "sel.first", "sel.last")
+        if "bold_under" in current_tags:
+            txt_edit.tag_remove("bold_under", "sel.first", "sel.last")
+        else:
+            txt_edit.tag_add("bold_under", "sel.first", "sel.last")
 
 def ital_under():
     """Makes highlighted text italicised and underscored"""
@@ -136,10 +260,39 @@ def ital_under():
     ital_under_font.configure(slant="italic", underline=True)
     txt_edit.tag_configure("ital_under", font=ital_under_font)
     current_tags= txt_edit.tag_names("sel.first")
-    if "ital_under" in current_tags:
-        txt_edit.tag_remove("ital_under", "sel.first", "sel.last")
+    if "cascadia" in current_tags:
+        if "cascadia_ital_under" in current_tags:
+            txt_edit.tag_remove("cascadia_ital_under", "sel.first", "sel.last")
+        else:
+            cascadia_font = ("Cascadia Code", 11, "italic", "underline")
+            txt_edit.tag_configure("cascadia_ital_under", font=cascadia_font)
+            txt_edit.tag_add("cascadia_ital_under", "sel.first", "sel.last")
+    elif "consolas" in current_tags:
+        if "consolas_ital_under" in current_tags:
+            txt_edit.tag_remove("consolas_ital_under", "sel.first", "sel.last")
+        else:
+            consolas_font = ("Consolas", 11, "italic", "underline")
+            txt_edit.tag_configure("consolas_ital_under", font=consolas_font)
+            txt_edit.tag_add("consolas_ital_under", "sel.first", "sel.last")
+    elif "courier" in current_tags:
+        if "courier_ital_under" in current_tags:
+            txt_edit.tag_remove("courier_ital_under", "sel.first", "sel.last")
+        else:
+            courier_font = ("Courier", 11, "italic", "underline")
+            txt_edit.tag_configure("courier_ital_under", font=courier_font)
+            txt_edit.tag_add("courier_ital_under", "sel.first", "sel.last")
+    elif "lucida" in current_tags:
+        if "lucida_ital_under" in current_tags:
+            txt_edit.tag_remove("lucida_ital_under", "sel.first", "sel.last")
+        else:
+            lucida_font = ("Lucida Console", 11, "italic", "underline")
+            txt_edit.tag_configure("lucida_ital_under", font=lucida_font)
+            txt_edit.tag_add("lucida_ital_under", "sel.first", "sel.last")
     else:
-        txt_edit.tag_add("ital_under", "sel.first", "sel.last")
+        if "ital_under" in current_tags:
+            txt_edit.tag_remove("ital_under", "sel.first", "sel.last")
+        else:
+            txt_edit.tag_add("ital_under", "sel.first", "sel.last")
 
 def all_fx():
     """Makes highlighted text have all 3 effects"""
@@ -147,31 +300,79 @@ def all_fx():
     all_fx_font.configure(weight="bold", slant="italic", underline=True)
     txt_edit.tag_configure("all_fx", font=all_fx_font)
     current_tags= txt_edit.tag_names("sel.first")
-    if "all_fx" in current_tags:
-        txt_edit.tag_remove("all_fx", "sel.first", "sel.last")
+    if "cascadia" in current_tags:
+        if "cascadia_all_fx" in current_tags:
+            txt_edit.tag_remove("cascadia_all_fx", "sel.first", "sel.last")
+        else:
+            cascadia_font = ("Cascadia Code", 11, "bold", "italic", "underline")
+            txt_edit.tag_configure("cascadia_all_fx", font=cascadia_font)
+            txt_edit.tag_add("cascadia_all_fx", "sel.first", "sel.last")
+    elif "consolas" in current_tags:
+        if "consolas_all_fx" in current_tags:
+            txt_edit.tag_remove("consolas_all_fx", "sel.first", "sel.last")
+        else:
+            consolas_font = ("Consolas", 11, "bold", "italic", "underline")
+            txt_edit.tag_configure("consolas_all_fx", font=consolas_font)
+            txt_edit.tag_add("consolas_all_fx", "sel.first", "sel.last")
+    elif "courier" in current_tags:
+        if "courier_all_fx" in current_tags:
+            txt_edit.tag_remove("courier_all_fx", "sel.first", "sel.last")
+        else:
+            courier_font = ("Courier", 11, "bold", "italic", "underline")
+            txt_edit.tag_configure("courier_all_fx", font=courier_font)
+            txt_edit.tag_add("courier_all_fx", "sel.first", "sel.last")
+    elif "lucida" in current_tags:
+        if "lucida_all_fx" in current_tags:
+            txt_edit.tag_remove("lucida_all_fx", "sel.first", "sel.last")
+        else:
+            lucida_font = ("Lucida Console", 11, "bold", "italic", "underline")
+            txt_edit.tag_configure("lucida_all_fx", font=lucida_font)
+            txt_edit.tag_add("lucida_all_fx", "sel.first", "sel.last")
     else:
-        txt_edit.tag_add("all_fx", "sel.first", "sel.last")
+        if "all_fx" in current_tags:
+            txt_edit.tag_remove("all_fx", "sel.first", "sel.last")
+        else:
+            txt_edit.tag_add("all_fx", "sel.first", "sel.last")
 
 def clear_fx():
     """Removes any applied effects to the highlighted text"""
     current_tags= txt_edit.tag_names("sel.first")
-    if "bold" in current_tags:
+    if "default" not in current_tags:
         txt_edit.tag_remove("bold", "sel.first", "sel.last")
-    if "italic" in current_tags:
         txt_edit.tag_remove("italic", "sel.first", "sel.last")
-    if "underline" in current_tags:
         txt_edit.tag_remove("underline", "sel.first", "sel.last")
-    if "bold_ital" in current_tags:
         txt_edit.tag_remove("bold_ital", "sel.first", "sel.last")
-    if "bold_under" in current_tags:
         txt_edit.tag_remove("bold_under", "sel.first", "sel.last")
-    if "ital_under" in current_tags:
         txt_edit.tag_remove("ital_under", "sel.first", "sel.last")
-    if "all_fx" in current_tags:
         txt_edit.tag_remove("all_fx", "sel.first", "sel.last")
-    #Eftersom cascadia_bold är sin egen tag som ligger 'ovanpå' cascadia taggen, blir fonten kvar men fetstilen tas bort.
-    if "cascadia_bold" in current_tags:
         txt_edit.tag_remove("cascadia_bold", "sel.first", "sel.last")
+        txt_edit.tag_remove("cascadia_italic", "sel.first", "sel.last")
+        txt_edit.tag_remove("cascadia_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("cascadia_bold_ital", "sel.first", "sel.last")
+        txt_edit.tag_remove("cascadia_bold_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("cascadia_ital_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("cascadia_all_fx", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_bold", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_italic", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_bold_ital", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_bold_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_ital_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_all_fx", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_bold", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_italic", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_bold_ital", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_bold_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_ital_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_all_fx", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_bold", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_italic", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_bold_ital", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_bold_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_ital_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_all_fx", "sel.first", "sel.last")
 
 def cascadia():
     """Changes highlighted text to 'Cascadia Code' font"""
@@ -214,14 +415,77 @@ def lucida():
         txt_edit.tag_add("lucida", "sel.first", "sel.last")
 
 def clear_font():
-    """Removes any applied fonts to the highlighted text"""
     current_tags= txt_edit.tag_names("sel.first")
-    #OBS: finns ingen tag med namnet default, man tar alltså bort alla font taggar ändå.
-    if "default" not in current_tags:
-        txt_edit.tag_remove("cascadia", "sel.first", "sel.last")
-        txt_edit.tag_remove("consolas", "sel.first", "sel.last")
-        txt_edit.tag_remove("courier", "sel.first", "sel.last")
-        txt_edit.tag_remove("lucida", "sel.first", "sel.last")
+    """Removes any applied fonts to the highlighted text"""
+    txt_edit.tag_remove("cascadia", "sel.first", "sel.last")
+    txt_edit.tag_remove("consolas", "sel.first", "sel.last")
+    txt_edit.tag_remove("courier", "sel.first", "sel.last")
+    txt_edit.tag_remove("lucida", "sel.first", "sel.last")
+    if "cascadia_bold" in current_tags or "consolas_bold" in current_tags or "courier_bold" in current_tags or "lucida_bold" in current_tags:
+        txt_edit.tag_remove("cascadia_bold", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_bold", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_bold", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_bold", "sel.first", "sel.last")
+        bold_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
+        bold_font.configure(weight="bold")
+        txt_edit.tag_configure("bold", font=bold_font)
+        txt_edit.tag_add("bold", "sel.first", "sel.last")
+    elif "cascadia_italic" in current_tags or "consolas_italic" in current_tags or "courier_italic" in current_tags or "lucida_italic" in current_tags:
+        txt_edit.tag_remove("cascadia_italic", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_italic", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_italic", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_italic", "sel.first", "sel.last")
+        italic_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
+        italic_font.configure(slant="italic")
+        txt_edit.tag_configure("italic", font=italic_font)
+        txt_edit.tag_add("italic", "sel.first", "sel.last")
+    elif "cascadia_under" in current_tags or "consolas_under" in current_tags or "courier_under" in current_tags or "lucida_under" in current_tags:
+        txt_edit.tag_remove("cascadia_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_under", "sel.first", "sel.last")
+        underline_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
+        underline_font.configure(underline=True)
+        txt_edit.tag_configure("underline", font=underline_font)
+        txt_edit.tag_add("underline", "sel.first", "sel.last")
+    elif "cascadia_bold_ital" in current_tags or "consolas_bold_ital" in current_tags or "courier_bold_ital" in current_tags or "lucida_bold_ital" in current_tags:
+        txt_edit.tag_remove("cascadia_bold_ital", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_bold_ital", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_bold_ital", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_bold_ital", "sel.first", "sel.last")
+        bold_ital_font.configure(weight="bold", slant="italic")
+        txt_edit.tag_configure("bold_ital", font=bold_ital_font)
+        current_tags= txt_edit.tag_names("sel.first")
+        txt_edit.tag_add("bold_ital", "sel.first", "sel.last")
+    elif "cascadia_bold_under" in current_tags or "consolas_bold_under" in current_tags or "courier_bold_under" in current_tags or "lucida_bold_under" in current_tags:
+        txt_edit.tag_remove("cascadia_bold_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_bold_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_bold_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_bold_under", "sel.first", "sel.last")
+        bold_under_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
+        bold_under_font.configure(weight="bold", underline=True)
+        txt_edit.tag_configure("bold_under", font=bold_under_font)
+        txt_edit.tag_add("bold_under", "sel.first", "sel.last")
+    elif "cascadia_ital_under" in current_tags or "consolas_ital_under" in current_tags or "courier_ital_under" in current_tags or "lucida_ital_under" in current_tags:
+        txt_edit.tag_remove("cascadia_ital_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_ital_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_ital_under", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_ital_under", "sel.first", "sel.last")
+        ital_under_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
+        ital_under_font.configure(slant="italic", underline=True)
+        txt_edit.tag_configure("ital_under", font=ital_under_font)
+        txt_edit.tag_add("ital_under", "sel.first", "sel.last")
+    elif "cascadia_all_fx" in current_tags or "consolas_all_fx" in current_tags or "courier_all_fx" in current_tags or "lucida_all_fx" in current_tags:
+        txt_edit.tag_remove("cascadia_all_fx", "sel.first", "sel.last")
+        txt_edit.tag_remove("consolas_all_fx", "sel.first", "sel.last")
+        txt_edit.tag_remove("courier_all_fx", "sel.first", "sel.last")
+        txt_edit.tag_remove("lucida_all_fx", "sel.first", "sel.last")
+        all_fx_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
+        all_fx_font.configure(weight="bold", slant="italic", underline=True)
+        txt_edit.tag_configure("all_fx", font=all_fx_font)
+        txt_edit.tag_add("all_fx", "sel.first", "sel.last")
+        
+
 
 window = tk.Tk()
 window.title("Simple Text Editor")
