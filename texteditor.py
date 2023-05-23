@@ -4,6 +4,7 @@ from tkinter.filedialog import askopenfilename, asksaveasfilename
 
 #active_file används för att få sökvägen till filen man öppnar eller sparar utanför funktionerna 'open_file' och 'save_file_as'
 active_file = ""
+#TODO: Gör en 'vill du spara först?' dialog om man redan har en fil öppen.
 def open_file():
     """Open a file for editing."""
     filepath = askopenfilename(
@@ -45,7 +46,7 @@ def save_file_as():
 def select():
     selected = txt_edit.selection_get()
 
-#TODO: man kan endast ha fetstil eller kursiv, inte båda samtidigt!
+#TODO: Gör de olika effekterna mer effektiva, istället för att ha en egen metod för varje variant.
 def boldify():
     #taget från https://www.youtube.com/watch?v=X6zqePBPDVU , ändrat 'my_text' till 'txt_edit'
     """Makes highlighted text bold"""
@@ -151,8 +152,10 @@ window.rowconfigure(0, minsize=800, weight=1)
 window.columnconfigure(1, minsize=800, weight=1)
 
 test_text = "String för att testa grejer!"
-txt_edit = tk.Text(window)
+#monospace font hittad i första svaret här: https://stackoverflow.com/questions/48731746/how-to-set-a-tkinter-widget-to-a-monospaced-platform-independent-font
+txt_edit = tk.Text(window, font=('TkFixedFont',11))
 txt_edit.insert(1.0, test_text)
+
 frm_buttons = tk.Frame(window, relief=tk.RAISED, bd=2)
 btn_open = tk.Button(frm_buttons, text="Open", command=open_file)
 btn_save = tk.Button(frm_buttons, text="Save", command=save_file)
