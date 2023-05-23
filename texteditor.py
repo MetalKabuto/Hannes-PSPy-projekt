@@ -47,6 +47,7 @@ def select():
     selected = txt_edit.selection_get()
 
 #TODO: Gör de olika effekterna mer effektiva, istället för att ha en egen metod för varje variant.
+#TODO: Gör så att man kan ha effekter på de olika fonterna
 def boldify():
     #taget från https://www.youtube.com/watch?v=X6zqePBPDVU , ändrat 'my_text' till 'txt_edit'
     """Makes highlighted text bold"""
@@ -144,17 +145,74 @@ def clear_fx():
         txt_edit.tag_remove("ital_under", "sel.first", "sel.last")
     if "all_fx" in current_tags:
         txt_edit.tag_remove("all_fx", "sel.first", "sel.last")
-    
+
+def cascadia():
+    """Changes highlighted text to 'Cascadia Code' font"""
+    cascadia_font = ("Cascadia Code", 11)
+    txt_edit.tag_configure("cascadia", font=cascadia_font)
+    current_tags= txt_edit.tag_names("sel.first")
+    if "cascadia" in current_tags:
+        txt_edit.tag_remove("cascadia", "sel.first", "sel.last")
+    else:
+        txt_edit.tag_add("cascadia", "sel.first", "sel.last")
+
+def consolas():
+    """Changes highlighted text to 'Consolas' font"""
+    consolas_font = ("Consolas", 11)
+    txt_edit.tag_configure("consolas", font=consolas_font)
+    current_tags= txt_edit.tag_names("sel.first")
+    if "consolas" in current_tags:
+        txt_edit.tag_remove("consolas", "sel.first", "sel.last")
+    else:
+        txt_edit.tag_add("consolas", "sel.first", "sel.last")
+
+def courier():
+    """Changes highlighted text to 'Courier' font"""
+    courier_font = ("Courier", 11)
+    txt_edit.tag_configure("courier", font=courier_font)
+    current_tags= txt_edit.tag_names("sel.first")
+    if "courier" in current_tags:
+        txt_edit.tag_remove("courier", "sel.first", "sel.last")
+    else:
+        txt_edit.tag_add("courier", "sel.first", "sel.last")
+
+def lucida():
+    """Changes highlighted text to 'Lucida Console' font"""
+    lucida_font = ("Lucida Console", 11)
+    txt_edit.tag_configure("lucida", font=lucida_font)
+    current_tags= txt_edit.tag_names("sel.first")
+    if "lucida" in current_tags:
+        txt_edit.tag_remove("lucida", "sel.first", "sel.last")
+    else:
+        txt_edit.tag_add("lucida", "sel.first", "sel.last")
+
+def clear_font():
+    """Removes any applied fonts to the highlighted text"""
+    current_tags= txt_edit.tag_names("sel.first")
+    if "cascadia" in current_tags:
+        txt_edit.tag_remove("cascadia", "sel.first", "sel.last")
+    if "consolas" in current_tags:
+        txt_edit.tag_remove("consolas", "sel.first", "sel.last")
+    if "courier" in current_tags:
+        txt_edit.tag_remove("courier", "sel.first", "sel.last")
+    if "lucida" in current_tags:
+        txt_edit.tag_remove("lucida", "sel.first", "sel.last")
+
 window = tk.Tk()
 window.title("Simple Text Editor")
 
 window.rowconfigure(0, minsize=800, weight=1)
 window.columnconfigure(1, minsize=800, weight=1)
 
-test_text = "String för att testa grejer!"
+#lista med monospace fonts: https://en.wikipedia.org/wiki/List_of_monospaced_typefaces
+
+test_text = "String för att testa grejer!\n"
 #monospace font hittad i första svaret här: https://stackoverflow.com/questions/48731746/how-to-set-a-tkinter-widget-to-a-monospaced-platform-independent-font
 txt_edit = tk.Text(window, font=('TkFixedFont',11))
 txt_edit.insert(1.0, test_text)
+txt_edit.insert(2.0, test_text)
+txt_edit.insert(3.0, test_text)
+txt_edit.insert(4.0, test_text)
 
 frm_buttons = tk.Frame(window, relief=tk.RAISED, bd=2)
 btn_open = tk.Button(frm_buttons, text="Open", command=open_file)
@@ -168,6 +226,11 @@ btn_bold_under = tk.Button(frm_buttons, text="Bold+Under", command=bold_under)
 btn_ital_under = tk.Button(frm_buttons, text="Ital+Under", command=ital_under)
 btn_all_fx = tk.Button(frm_buttons, text="All", command=all_fx)
 btn_clear_fx = tk.Button(frm_buttons, text="Clear FX", command=clear_fx)
+btn_cascadia = tk.Button(frm_buttons, text="Cascadia", command=cascadia)
+btn_consolas = tk.Button(frm_buttons, text="Consolas", command=consolas)
+btn_courier = tk.Button(frm_buttons, text="Courier", command=courier)
+btn_lucida = tk.Button(frm_buttons, text="Lucida", command=lucida)
+btn_clear_font = tk.Button(frm_buttons, text="Clear Font", command=clear_font)
 
 btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 btn_save.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
@@ -180,6 +243,11 @@ btn_bold_under.grid(row=7, column=0, sticky="ew", padx=5, pady=5)
 btn_ital_under.grid(row=8, column=0, sticky="ew", padx=5, pady=5)
 btn_all_fx.grid(row=9, column=0, sticky="ew", padx=5, pady=5)
 btn_clear_fx.grid(row=10, column=0, sticky="ew", padx=5, pady=5)
+btn_cascadia.grid(row=11, column=0, sticky="ew", padx=5, pady=5)
+btn_consolas.grid(row=12, column=0, sticky="ew", padx=5, pady=5)
+btn_courier.grid(row=13, column=0, sticky="ew", padx=5, pady=5)
+btn_lucida.grid(row=14, column=0, sticky="ew", padx=5, pady=5)
+btn_clear_font.grid(row=15, column=0, sticky="ew", padx=5, pady=5)
 
 frm_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
