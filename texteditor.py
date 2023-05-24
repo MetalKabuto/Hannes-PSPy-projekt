@@ -484,8 +484,32 @@ def clear_font():
         all_fx_font.configure(weight="bold", slant="italic", underline=True)
         txt_edit.tag_configure("all_fx", font=all_fx_font)
         txt_edit.tag_add("all_fx", "sel.first", "sel.last")
-        
 
+def about():
+    about_window = tk.Tk()
+    about_window.title("About")
+    window.rowconfigure(0, minsize=800, weight=1)
+    window.columnconfigure(1, minsize=800, weight=1)
+    about_txt = tk.Text(about_window)
+    about_txt.grid(row=0, column=1, sticky="nsew")
+    hjälp_text = """Beskrivning av programmets funktioner:\n
+Open - Öppnar en .txt fil.
+Save - Sparar den nuvarande filen.
+Save as - Sparar texten till en annan fil.
+
+OBS För effekter och fonter: Välj en font först, sedan effekt!
+OBS2: För att lägga på flera effekter samtidigt, använd de designerade knapparna
+
+Boldify - Gör markerad text fetstil.
+Italify - Gör markerad text kursiv.
+Underline - Gör markerad text understrykt
+Bold + Ital ~ All FX - Lägger på flera effekter på markerad text.
+Clear FX - Tar bort alla effekter från markerad text.
+Cascadia ~ Lucida - Ändrar till respektiv font på markerad text.
+Clear Font - Tar bort ändrade fonter.
+About - Visar detta fönster.
+"""
+    about_txt.insert(1.0, hjälp_text)
 
 window = tk.Tk()
 window.title("Simple Text Editor")
@@ -523,6 +547,7 @@ btn_consolas = tk.Button(frm_buttons, text="Consolas", command=consolas)
 btn_courier = tk.Button(frm_buttons, text="Courier", command=courier)
 btn_lucida = tk.Button(frm_buttons, text="Lucida", command=lucida)
 btn_clear_font = tk.Button(frm_buttons, text="Clear Font", command=clear_font)
+btn_about = tk.Button(frm_buttons, text="About", command=about)
 
 btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 btn_save.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
@@ -540,6 +565,7 @@ btn_consolas.grid(row=12, column=0, sticky="ew", padx=5, pady=5)
 btn_courier.grid(row=13, column=0, sticky="ew", padx=5, pady=5)
 btn_lucida.grid(row=14, column=0, sticky="ew", padx=5, pady=5)
 btn_clear_font.grid(row=15, column=0, sticky="ew", padx=5, pady=5)
+btn_about.grid(row=16, column=0, sticky="ew", padx=5, pady=5)
 
 frm_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
