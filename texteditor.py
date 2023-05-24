@@ -8,7 +8,7 @@ active_file = ""
 def open_file():
     """Open a file for editing."""
     filepath = askopenfilename(
-        filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
+        filetypes=[("Text Files", "*.txt")]
     )
     if not filepath:
         return
@@ -31,7 +31,7 @@ def save_file_as():
     """Save the current file as a new file."""
     filepath = asksaveasfilename(
         defaultextension=".txt",
-        filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")],
+        filetypes=[("Text Files", "*.txt")],
     )
     if not filepath:
         return
