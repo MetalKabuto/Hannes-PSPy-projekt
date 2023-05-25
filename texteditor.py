@@ -2,11 +2,13 @@ import tkinter as tk
 import tkinter.font as tkFont
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
-#active_file används för att få sökvägen till filen man öppnar eller sparar utanför funktionerna 'open_file' och 'save_file_as'
+#lista med monospace fonts: https://en.wikipedia.org/wiki/List_of_monospaced_typefaces , hittade 4 av de i Tkinter
+
+#active_file används av 'save_file' funktionen.
 active_file = ""
-#TODO: Gör en 'vill du spara först?' dialog om man redan har en fil öppen.
+
 def open_file():
-    """Open a file for editing."""
+    """Open a file for editing. Taget från https://realpython.com/python-gui-tkinter/ , förutom 'active_file' som jag lade till."""
     filepath = askopenfilename(
         filetypes=[("Text Files", "*.txt")]
     )
@@ -22,13 +24,14 @@ def open_file():
 
 def save_file():
     #om active_file har ett värde sparas texten i editorn till den sökvägen
+    #active_file får sitt värde när man öppnar en fil eller 'sparar som'.
     if active_file != "":
         with open(active_file, mode="w", encoding="utf-8") as output_file:
             text = txt_edit.get("1.0", tk.END)
             output_file.write(text)
 
 def save_file_as():
-    """Save the current file as a new file."""
+    """Save the current file as a new file. Från samma sida som 'open_file'."""
     filepath = asksaveasfilename(
         defaultextension=".txt",
         filetypes=[("Text Files", "*.txt")],
@@ -42,22 +45,20 @@ def save_file_as():
     global active_file
     active_file = filepath
 
-#select är oanvänd än så länge
-def select():
-    selected = txt_edit.selection_get()
-    return selected
-
-#TODO: Gör de olika effekterna mer effektiva, istället för att ha en egen metod för varje variant.
-#OBS: Om man lägger på en effekt före en font, så hamnar fonten 'ovanpå' effekt-taggen, och endast fonten syns.
-#Gör därför font först, sen effekt.
+#OBS: Om man lägger på en effekt före en font, så hamnar fonten 'ovanpå' effekt-taggen, och endast fonten syns. Gör därför font först, sen effekt.
 #OBS2: Om man markerar flera rader med olika fonter och sedan lägger på en effekt, får alla rader samma font som den översta man valt.
 def boldify():
     #taget från https://www.youtube.com/watch?v=X6zqePBPDVU , ändrat 'my_text' till 'txt_edit'
+    #Alla effekt och font funktioner fungerar mer eller mindre likadant.
     """Makes highlighted text bold"""
+    #Hämtar sitt typsnitt från editorfönstret. Standard är TkFixedFont, som är monospace.
     bold_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
+    #Gör taggens text fetstil
     bold_font.configure(weight="bold")
+    #Ger taggen ett namn och en font
     txt_edit.tag_configure("bold", font=bold_font)
     current_tags= txt_edit.tag_names("sel.first")
+    #Letar efter font taggar först.
     if "cascadia" in current_tags:
         if "cascadia_bold" in current_tags:
             txt_edit.tag_remove("cascadia_bold", "sel.first", "sel.last")
@@ -93,7 +94,7 @@ def boldify():
             txt_edit.tag_add("bold", "sel.first", "sel.last")
 
 def italify():
-    #taget från https://www.youtube.com/watch?v=X6zqePBPDVU , ändrat 'my_text' till 'txt_edit'
+    #Likadan som 'boldify', fast gör text kursiv istället.
     """Makes highlighted text italicised"""
     italic_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
     italic_font.configure(slant="italic")
@@ -134,7 +135,6 @@ def italify():
             txt_edit.tag_add("italic", "sel.first", "sel.last")
 
 def underline():
-    #hittade underline = true här: #https://stackoverflow.com/questions/3655449/underline-text-in-tkinter-label-widget
     """Makes highlighted text underlined"""
     underline_font = tkFont.Font(txt_edit, txt_edit.cget("font"))
     underline_font.configure(underline=True)
@@ -336,46 +336,45 @@ def all_fx():
 
 def clear_fx():
     """Removes any applied effects to the highlighted text"""
-    current_tags= txt_edit.tag_names("sel.first")
-    if "default" not in current_tags:
-        txt_edit.tag_remove("bold", "sel.first", "sel.last")
-        txt_edit.tag_remove("italic", "sel.first", "sel.last")
-        txt_edit.tag_remove("underline", "sel.first", "sel.last")
-        txt_edit.tag_remove("bold_ital", "sel.first", "sel.last")
-        txt_edit.tag_remove("bold_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("ital_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("all_fx", "sel.first", "sel.last")
-        txt_edit.tag_remove("cascadia_bold", "sel.first", "sel.last")
-        txt_edit.tag_remove("cascadia_italic", "sel.first", "sel.last")
-        txt_edit.tag_remove("cascadia_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("cascadia_bold_ital", "sel.first", "sel.last")
-        txt_edit.tag_remove("cascadia_bold_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("cascadia_ital_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("cascadia_all_fx", "sel.first", "sel.last")
-        txt_edit.tag_remove("consolas_bold", "sel.first", "sel.last")
-        txt_edit.tag_remove("consolas_italic", "sel.first", "sel.last")
-        txt_edit.tag_remove("consolas_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("consolas_bold_ital", "sel.first", "sel.last")
-        txt_edit.tag_remove("consolas_bold_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("consolas_ital_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("consolas_all_fx", "sel.first", "sel.last")
-        txt_edit.tag_remove("courier_bold", "sel.first", "sel.last")
-        txt_edit.tag_remove("courier_italic", "sel.first", "sel.last")
-        txt_edit.tag_remove("courier_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("courier_bold_ital", "sel.first", "sel.last")
-        txt_edit.tag_remove("courier_bold_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("courier_ital_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("courier_all_fx", "sel.first", "sel.last")
-        txt_edit.tag_remove("lucida_bold", "sel.first", "sel.last")
-        txt_edit.tag_remove("lucida_italic", "sel.first", "sel.last")
-        txt_edit.tag_remove("lucida_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("lucida_bold_ital", "sel.first", "sel.last")
-        txt_edit.tag_remove("lucida_bold_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("lucida_ital_under", "sel.first", "sel.last")
-        txt_edit.tag_remove("lucida_all_fx", "sel.first", "sel.last")
+    txt_edit.tag_remove("bold", "sel.first", "sel.last")
+    txt_edit.tag_remove("italic", "sel.first", "sel.last")
+    txt_edit.tag_remove("underline", "sel.first", "sel.last")
+    txt_edit.tag_remove("bold_ital", "sel.first", "sel.last")
+    txt_edit.tag_remove("bold_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("ital_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("all_fx", "sel.first", "sel.last")
+    txt_edit.tag_remove("cascadia_bold", "sel.first", "sel.last")
+    txt_edit.tag_remove("cascadia_italic", "sel.first", "sel.last")
+    txt_edit.tag_remove("cascadia_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("cascadia_bold_ital", "sel.first", "sel.last")
+    txt_edit.tag_remove("cascadia_bold_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("cascadia_ital_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("cascadia_all_fx", "sel.first", "sel.last")
+    txt_edit.tag_remove("consolas_bold", "sel.first", "sel.last")
+    txt_edit.tag_remove("consolas_italic", "sel.first", "sel.last")
+    txt_edit.tag_remove("consolas_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("consolas_bold_ital", "sel.first", "sel.last")
+    txt_edit.tag_remove("consolas_bold_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("consolas_ital_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("consolas_all_fx", "sel.first", "sel.last")
+    txt_edit.tag_remove("courier_bold", "sel.first", "sel.last")
+    txt_edit.tag_remove("courier_italic", "sel.first", "sel.last")
+    txt_edit.tag_remove("courier_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("courier_bold_ital", "sel.first", "sel.last")
+    txt_edit.tag_remove("courier_bold_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("courier_ital_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("courier_all_fx", "sel.first", "sel.last")
+    txt_edit.tag_remove("lucida_bold", "sel.first", "sel.last")
+    txt_edit.tag_remove("lucida_italic", "sel.first", "sel.last")
+    txt_edit.tag_remove("lucida_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("lucida_bold_ital", "sel.first", "sel.last")
+    txt_edit.tag_remove("lucida_bold_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("lucida_ital_under", "sel.first", "sel.last")
+    txt_edit.tag_remove("lucida_all_fx", "sel.first", "sel.last")
 
 def cascadia():
     """Changes highlighted text to 'Cascadia Code' font"""
+    #Skapar en tagg på liknande sätt som FX metoderna.
     cascadia_font = ("Cascadia Code", 11)
     txt_edit.tag_configure("cascadia", font=cascadia_font)
     current_tags= txt_edit.tag_names("sel.first")
@@ -415,12 +414,14 @@ def lucida():
         txt_edit.tag_add("lucida", "sel.first", "sel.last")
 
 def clear_font():
-    current_tags= txt_edit.tag_names("sel.first")
     """Removes any applied fonts to the highlighted text"""
+    #Först tas fonterna bort, sedan läggs effekten på igen.
+    current_tags= txt_edit.tag_names("sel.first")
     txt_edit.tag_remove("cascadia", "sel.first", "sel.last")
     txt_edit.tag_remove("consolas", "sel.first", "sel.last")
     txt_edit.tag_remove("courier", "sel.first", "sel.last")
     txt_edit.tag_remove("lucida", "sel.first", "sel.last")
+    #Behöver if satser, eftersom fonter med effekter är sina egna taggar.
     if "cascadia_bold" in current_tags or "consolas_bold" in current_tags or "courier_bold" in current_tags or "lucida_bold" in current_tags:
         txt_edit.tag_remove("cascadia_bold", "sel.first", "sel.last")
         txt_edit.tag_remove("consolas_bold", "sel.first", "sel.last")
@@ -485,6 +486,7 @@ def clear_font():
         txt_edit.tag_configure("all_fx", font=all_fx_font)
         txt_edit.tag_add("all_fx", "sel.first", "sel.last")
 
+#Öppnar ett separat fönster med hjälp
 def about():
     about_window = tk.Tk()
     about_window.title("About")
@@ -495,7 +497,7 @@ def about():
     hjälp_text = """Beskrivning av programmets funktioner:\n
 Open - Öppnar en .txt fil.
 Save - Sparar den nuvarande filen.
-Save as - Sparar texten till en annan fil.
+Save as - Sparar texten till en valfri fil.
 
 OBS För effekter och fonter: Välj en font först, sedan effekt!
 OBS2: För att lägga på flera effekter samtidigt, använd de designerade knapparna
@@ -511,25 +513,24 @@ About - Visar detta fönster.
 """
     about_txt.insert(1.0, hjälp_text)
 
+#Huvudfönstret
 window = tk.Tk()
 window.title("Simple Text Editor")
-
 window.rowconfigure(0, minsize=800, weight=1)
 window.columnconfigure(1, minsize=800, weight=1)
 
-#lista med monospace fonts: https://en.wikipedia.org/wiki/List_of_monospaced_typefaces
-
-test_text = "String för att testa grejer!\n"
 #monospace font hittad i första svaret här: https://stackoverflow.com/questions/48731746/how-to-set-a-tkinter-widget-to-a-monospaced-platform-independent-font
 default_font = ("TkFixedFont", 11)
+#Skapar editorfönstret
 txt_edit = tk.Text(window, font=(default_font))
-default_font = ("TkFixedFont", 20)
-txt_edit.tag_configure("default", font=default_font)
+
+test_text = "String för att testa grejer!\n"
 txt_edit.insert(1.0, test_text)
 txt_edit.insert(2.0, test_text)
 txt_edit.insert(3.0, test_text)
 txt_edit.insert(4.0, test_text)
 
+#Gör alla knappar
 frm_buttons = tk.Frame(window, relief=tk.RAISED, bd=2)
 btn_open = tk.Button(frm_buttons, text="Open", command=open_file)
 btn_save = tk.Button(frm_buttons, text="Save", command=save_file)
@@ -549,6 +550,7 @@ btn_lucida = tk.Button(frm_buttons, text="Lucida", command=lucida)
 btn_clear_font = tk.Button(frm_buttons, text="Clear Font", command=clear_font)
 btn_about = tk.Button(frm_buttons, text="About", command=about)
 
+#Sätter de i griden
 btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 btn_save.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 btn_save_as.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
@@ -567,6 +569,7 @@ btn_lucida.grid(row=14, column=0, sticky="ew", padx=5, pady=5)
 btn_clear_font.grid(row=15, column=0, sticky="ew", padx=5, pady=5)
 btn_about.grid(row=16, column=0, sticky="ew", padx=5, pady=5)
 
+#Framen med knappar hamnar till vänster om textfönstret
 frm_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
 
